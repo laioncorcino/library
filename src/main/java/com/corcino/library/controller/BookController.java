@@ -22,7 +22,7 @@ public class BookController {
     private BookService bookService;
 
     @PostMapping
-    public ResponseEntity<String> create(@RequestBody @Valid BookRequest bookRequest, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<String> create(@RequestBody @Valid BookRequest bookRequest, UriComponentsBuilder uriBuilder) throws Exception {
         BookResponse bookResponse = bookService.createBook(bookRequest);
         URI uri = uriBuilder.path("/api/v1/book/{bookId}").buildAndExpand(bookResponse.getBookId()).toUri();
         return ResponseEntity.created(uri).build();
