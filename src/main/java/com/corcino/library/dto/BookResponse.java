@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,7 +13,7 @@ public class BookResponse {
 
     private Long bookId;
     private String title;
-    private List<String> authors;
+    private String authors;
     private String isbn;
 
 }

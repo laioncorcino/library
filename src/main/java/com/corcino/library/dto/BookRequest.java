@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import javax.validation.constraints.NotEmpty;
 
 @Data
 @NoArgsConstructor
@@ -13,8 +13,13 @@ import java.util.List;
 @Builder
 public class BookRequest {
 
+    @NotEmpty(message = "Title is mandatory")
     private String title;
-    private List<String> authors;
+
+    @NotEmpty(message = "Author is mandatory")
+    private String author;
+
+    @NotEmpty(message = "Isbn is mandatory")
     private String isbn;
 
 }

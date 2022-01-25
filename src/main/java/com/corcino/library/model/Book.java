@@ -2,14 +2,22 @@ package com.corcino.library.model;
 
 import lombok.Data;
 
-import java.util.List;
+import javax.persistence.*;
 
 @Data
+@Entity
 public class Book {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bookId;
+
+    @Column(unique = true)
     private String title;
-    private List<String> authors;
+
+    private String author;
+
+    @Column(unique = true)
     private String isbn;
 
 }

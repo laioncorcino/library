@@ -3,15 +3,12 @@ package com.corcino.library.util;
 import com.corcino.library.dto.BookRequest;
 import com.corcino.library.dto.BookResponse;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class BookCreator {
 
     public static BookRequest createBookGolangToBeSaved() {
         return BookRequest.builder()
                 .title("The Go Programming Language")
-                .authors(Arrays.asList("Alan A.A. Donovan", "Brian W. Kernighan"))
+                .author("Alan A.A. Donovan")
                 .isbn("9780134190440")
                 .build();
     }
@@ -20,7 +17,7 @@ public class BookCreator {
         return BookResponse.builder()
                 .bookId(1L)
                 .title("The Go Programming Language")
-                .authors(Arrays.asList("Alan A.A. Donovan", "Brian W. Kernighan"))
+                .authors("Alan A.A. Donovan")
                 .isbn("9780134190440")
                 .build();
     }
@@ -28,7 +25,7 @@ public class BookCreator {
     public static BookRequest createBookJavaToBeSaved() {
         return BookRequest.builder()
                 .title("Effective Java")
-                .authors(List.of("Joshua Bloch"))
+                .author("Joshua Bloch")
                 .isbn("0134685997")
                 .build();
     }
@@ -37,7 +34,7 @@ public class BookCreator {
         return BookResponse.builder()
                 .bookId(2L)
                 .title("Effective Java")
-                .authors(List.of("Joshua Bloch"))
+                .authors("Joshua Bloch")
                 .isbn("0134685997")
                 .build();
     }
