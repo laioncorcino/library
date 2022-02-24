@@ -27,7 +27,7 @@ public class BookService {
         return modelMapper.map(bookSaved, BookResponse.class);
     }
 
-    public Book saveBook(Book book) throws Exception {
+    private Book saveBook(Book book) throws Exception {
         validateDataIntegrityOf(book);
         try {
             return bookRepository.save(book);

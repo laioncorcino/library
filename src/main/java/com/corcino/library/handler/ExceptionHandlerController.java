@@ -6,7 +6,6 @@ import com.corcino.library.error.exception.ObjectNotFoundException;
 import com.corcino.library.util.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -79,21 +78,13 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(
-            MethodArgumentNotValidException exception, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException exception, HttpHeaders headers,
+                                                                  HttpStatus status, WebRequest request) {
         List<ValidationError> standardErrors = new ArrayList<>();
         List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
 
         fieldErrors.forEach(fieldError -> {
-            standardErrors.add(ValidationError.builder()
-                            .title("Bad Request Exception. Invalid fields.")
-                            .status(status.value())
-                            .errorMessage(fieldError.getDefaultMessage())
-                            .developerMessage(exception.getClass().getName())
-                            .dateTime(getDateTime())
-                            .field(fieldError.getField())
-                            .build()
-            );
+            standardErrors.add(buildErrors(exception, status, fieldError));
             log.error("Erro de validação no campo " + fieldError.getField() + " para se criar ou atualizar recurso");
         });
 
@@ -127,6 +118,17 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
                 .build();
         log.error("Internal error in server " + exception.getClass());
         return new ResponseEntity<>(standardError, headers, status);
+    }
+
+    private ValidationError buildErrors(MethodArgumentNotValidException exception, HttpStatus status, FieldError fieldError) {
+        return ValidationError.builder()
+                .title("Bad Request Exception. Invalid fields.")
+                .status(status.value())
+                .errorMessage(fieldError.getDefaultMessage())
+                .developerMessage(exception.getClass().getName())
+                .dateTime(getDateTime())
+                .field(fieldError.getField())
+                .build();
     }
 
     private String getDateTime() {
